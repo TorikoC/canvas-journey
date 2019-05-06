@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: aliceblue;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"> </canvas>
+    <script>
+      window.onload = draw();
+      function draw() {
+        let canvas = document.getElementById('canvas');
+        if (canvas.getContext) {
+          let ctx = canvas.getContext('2d');
+          let lineJoins = ['round', 'bevel', 'miter'];
+          ctx.lineWidth = 10;
+          for (let i = 0; i < lineJoins.length; i += 1) {
+            ctx.lineJoin = lineJoins[i];
+            ctx.beginPath();
+            ctx.moveTo(0, i * 50);
+            ctx.lineTo(50, i * 50 + 50);
+            ctx.lineTo(100, i * 50);
+            ctx.stroke();
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
