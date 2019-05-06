@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: aliceblue;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"> </canvas>
+    <script>
+      window.onload = draw();
+      function draw() {
+        let canvas = document.getElementById('canvas');
+        if (canvas.getContext) {
+          let ctx = canvas.getContext('2d');
+          let linearGradient = ctx.createLinearGradient(0, 0, 300, 150);
+          linearGradient.addColorStop(0, 'wheat');
+          linearGradient.addColorStop(0.5, 'steelblue');
+          linearGradient.addColorStop(1, 'wheat');
+          ctx.fillStyle = linearGradient;
+          ctx.fillRect(0, 0, 300, 150);
+        }
+      }
+    </script>
+  </body>
+</html>
