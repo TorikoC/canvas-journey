@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Transform</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: aliceblue;
+      }
+      #canvas {
+        background-color: wheat;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Transform</h1>
+    <canvas id="canvas" width="800" height="500"> </canvas>
+    <script>
+      window.onload = draw();
+      function draw() {
+        let canvas = document.getElementById('canvas');
+        if (canvas.getContext) {
+          let ctx = canvas.getContext('2d');
+          ctx.font = '20px sans-serif';
+          ctx.save();
+          ctx.scale(-1, 1);
+          ctx.fillText('hello,world', -200, 50);
+          ctx.restore();
+          ctx.save();
+          ctx.scale(1, -1);
+          ctx.fillText('hello,world', 100, -150);
+          ctx.restore();
+          ctx.save();
+          ctx.scale(-1, -1);
+          ctx.fillText('hello,world', -200, -200);
+          ctx.restore();
+          ctx.save();
+          ctx.scale(1, 1);
+          ctx.fillText('hello,world', 100, 100);
+          ctx.restore();
+          ctx.save();
+          ctx.scale(4, 2);
+          ctx.fillText('hello,world', 100, 100);
+        }
+      }
+      function getRandomColor() {
+        let r = Math.random() * 250;
+        let g = Math.random() * 250;
+        let b = Math.random() * 250;
+        return `rgb(${r},${g},${b})`;
+      }
+    </script>
+  </body>
+</html>
