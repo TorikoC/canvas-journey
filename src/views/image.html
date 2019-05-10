@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Image</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: aliceblue;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image</h1>
+    <canvas id="canvas"> </canvas>
+    <script>
+      window.onload = draw();
+      function draw() {
+        let canvas = document.getElementById('canvas');
+        if (canvas.getContext) {
+          let ctx = canvas.getContext('2d');
+          let img = new Image();
+          img.src = 'https://picsum.photos/300/150';
+          img.onload = function(data) {
+            ctx.drawImage(img, 0, 0, 200, 50);
+            ctx.lineWidth = 10;
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(300, 150);
+            ctx.stroke();
+            ctx.moveTo(300, 0);
+            ctx.lineTo(0, 150);
+            ctx.stroke();
+          };
+        }
+      }
+    </script>
+  </body>
+</html>

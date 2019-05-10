@@ -21,7 +21,8 @@
   </head>
   <body>
     <h1>Image</h1>
-    <canvas id="canvas"> </canvas>
+    <button id="invert">invert</button>
+    <canvas id="canvas" width="500" height="500"></canvas>
     <script>
       window.onload = draw();
       function draw() {
@@ -29,17 +30,22 @@
         if (canvas.getContext) {
           let ctx = canvas.getContext('2d');
           let img = new Image();
-          img.src = 'https://picsum.photos/300/150';
-          img.onload = function(data) {
+          img.src = '/horse.jpg';
+          img.onload = function() {
             ctx.drawImage(img, 0, 0);
-            ctx.lineWidth = 10;
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(300, 150);
-            ctx.stroke();
-            ctx.moveTo(300, 0);
-            ctx.lineTo(0, 150);
-            ctx.stroke();
+            img.style.display = 'none';
+            let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let data = imageData.data;
+            let invertBtn = document.getElementById('invert');
+            let BOUND = 255;
+            invertBtn.addEventListener('click', () => {
+              for (let i = 0; i < data.length; i += 4) {
+                data[i] = BOUND - data[i]; // red
+                data[i + 1] = BOUND - data[i + 1]; // green
+                data[i + 2] = BOUND - data[i + 2]; // blue
+              }
+              ctx.putImageData(imageData, 0, 0);
+            });
           };
         }
       }
