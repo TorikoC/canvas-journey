@@ -17,9 +17,12 @@
         justify-content: center;
         background-color: aliceblue;
       }
-      canvas {
-        height: 500px;
-        width: 500px;
+      div {
+        /* font-size: 32px; */
+        /* font-weight: bold; */
+        font-family: 'Courier New', Courier, monospace;
+        color: white;
+        background: #333;
       }
     </style>
   </head>
@@ -28,13 +31,39 @@
       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque, nostrum?
     </div>
     <button id="toCanvas">to canvas</button>
-    <canvas id="canvas" width="500" height="500"></canvas>
+    <!-- <canvas height="500" width="500"></canvas> -->
     <script>
       window.onload = draw();
       function draw() {
-        let canvas = document.getElementById('canvas');
-        let offsetx = canvas.getBoundingClientRect().x;
-        let offsety = canvas.getBoundingClientRect().y;
+        var PIXEL_RATIO = (function() {
+          var ctx = document.createElement('canvas').getContext('2d'),
+            dpr = window.devicePixelRatio || 1,
+            bsr =
+              ctx.webkitBackingStorePixelRatio ||
+              ctx.mozBackingStorePixelRatio ||
+              ctx.msBackingStorePixelRatio ||
+              ctx.oBackingStorePixelRatio ||
+              ctx.backingStorePixelRatio ||
+              1;
+
+          return dpr / bsr;
+        })();
+
+        createHiDPICanvas = function(w, h, ratio) {
+          if (!ratio) {
+            ratio = PIXEL_RATIO;
+          }
+          var can = document.createElement('canvas');
+          can.width = w * ratio;
+          can.height = h * ratio;
+          can.style.width = w + 'px';
+          can.style.height = h + 'px';
+          can.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
+          return can;
+        };
+        let rd = document.body.getBoundingClientRect();
+        let canvas = createHiDPICanvas(rd.width, rd.height);
+        // document.body.appendChild(canvas);
         if (canvas.getContext) {
           let ctx = canvas.getContext('2d');
           let btn = document.getElementById('toCanvas');
@@ -47,9 +76,13 @@
             let height = rect.height;
             let text = div.innerText;
             let style = getComputedStyle(div);
+            ctx.fillStyle = getComputedStyle(document.body).backgroundColor;
+            ctx.fillRect(0, 0, rd.width, rd.height);
+            ctx.fillStyle = style.backgroundColor;
+            ctx.fillRect(x, y, width, height);
+            ctx.fillStyle = style.color;
             ctx.font = style.font;
-            ctx.rect(0, 0, width, height);
-            ctx.strokeText(text, 0, parseInt(style.fontSize));
+            ctx.fillText(text, x, y + parseInt(style.fontSize));
             let a = document.createElement('a');
             a.download = 'img.png';
             a.href = canvas.toDataURL('image/png');
