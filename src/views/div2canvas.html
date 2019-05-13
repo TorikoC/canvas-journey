@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Image</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: aliceblue;
+      }
+      canvas {
+        height: 500px;
+        width: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque, nostrum?
+    </div>
+    <button id="toCanvas">to canvas</button>
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <script>
+      window.onload = draw();
+      function draw() {
+        let canvas = document.getElementById('canvas');
+        let offsetx = canvas.getBoundingClientRect().x;
+        let offsety = canvas.getBoundingClientRect().y;
+        if (canvas.getContext) {
+          let ctx = canvas.getContext('2d');
+          let btn = document.getElementById('toCanvas');
+          btn.addEventListener('click', () => {
+            let div = document.querySelector('div');
+            let rect = div.getBoundingClientRect();
+            let x = rect.x;
+            let y = rect.y;
+            let width = rect.width;
+            let height = rect.height;
+            let text = div.innerText;
+            let style = getComputedStyle(div);
+            ctx.font = style.font;
+            ctx.rect(0, 0, width, height);
+            ctx.strokeText(text, 0, parseInt(style.fontSize));
+            let a = document.createElement('a');
+            a.download = 'img.png';
+            a.href = canvas.toDataURL('image/png');
+            a.click();
+          });
+        }
+      }
+    </script>
+  </body>
+</html>
